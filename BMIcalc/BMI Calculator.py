@@ -15,11 +15,11 @@ class simpleform_ap(Tk):
     def __init__(self):
         Tk.__init__(self)
         self.topFrame = Frame(self)
-        self.topFrame.pack(pady=5)
+        self.topFrame.pack(padx=5,pady=5)
         self.middleFrame = Frame(self)
-        self.middleFrame.pack(pady=5)
+        self.middleFrame.pack(padx=5,pady=5)
         self.bottomFrame = Frame(self)
-        self.bottomFrame.pack(pady=5)
+        self.bottomFrame.pack(padx=5,pady=5,fill=X)
 
         heightList = ["cm","inch"]
         weightList = ["kg","lbs"]
@@ -33,9 +33,9 @@ class simpleform_ap(Tk):
         self.heightVar.set("cm")
         self.weightVar.set("kg")
 
-        self.label1 = Label(self.topFrame,text="Height",width=10)
+        self.label1 = Label(self.topFrame,text="Height",width=6)
         self.label1.pack(side="left", padx=2)
-        self.label2 = Label(self.middleFrame,text="Weight",width=10)
+        self.label2 = Label(self.middleFrame,text="Weight",width=6)
         self.label2.pack(side="left", padx=2)
 
         self.heightEntry = Entry(self.topFrame,textvariable = self.height, width=20)
@@ -49,7 +49,10 @@ class simpleform_ap(Tk):
         self.weightMenu.pack()
 
         self.button1 = Button(self.bottomFrame,text="Calculate",command=self.calculate)
-        self.button1.pack()
+        self.button1.pack(side=RIGHT)
+
+        self.label3 = Label(self.bottomFrame,text="")
+        self.label3.pack(padx=2)
 
     def calculate(self):
         try:
@@ -73,10 +76,14 @@ class simpleform_ap(Tk):
     def display(self,height, weight):
         bmi = weight*10000/(height**2)
         if bmi<18.5:
+            self.label3.config(text="Your BMI is %.1f"%(bmi),fg='orange')
             messagebox.showinfo("Result", "You are Lean")
         elif bmi <25:
+            self.label3.config(text="Your BMI is %.1f"%(bmi),fg='green')
             messagebox.showinfo("Result", "You are Healthy")
+
         else:
+            self.label3.config(text="Your BMI is %.1f"%(bmi),fg='red')
             messagebox.showinfo("Result", "Consider to reduce your weight")
 
 def main(height,weight):
@@ -95,7 +102,7 @@ def main(height,weight):
     fig,ax=plt.subplots()
     fig.canvas.set_window_title('BMI Graph')
     ax.plot(x,a,x,b,x,c,x[:len(e)],e,x[:len(f)],f,x[:len(g)],g,x[16:],h[16:],linestyle='dotted',color='grey')
-    ax.fill_between(x,37,a, facecolor='yellow')
+    ax.fill_between(x,37,a, facecolor='orange')
     ax.fill_between(x,a,c, facecolor='green')
     ax.fill_between(x,c,123, facecolor='red')
 
